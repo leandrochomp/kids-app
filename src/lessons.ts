@@ -374,7 +374,7 @@ function mathQ(d: number): Question {
 }
 
 // ---- Memory ----------------------------------------------------------------
-// Drop .png files into src/memory-images/ to use them as the memory cards.
+// Drop .png files only into src/memory-images/ to use them as the memory cards.
 const MEMORY_IMAGES = Object.values(
   import.meta.glob('./memory-images/*.png', { eager: true, query: '?url', import: 'default' }),
 ) as string[];

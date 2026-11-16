@@ -2,7 +2,7 @@ const KEY = 'little-learners/v1';
 const SETTINGS_KEY = 'little-learners/settings';
 
 export type Progress = { stars: Record<string, number> };
-export type Settings = { voice: boolean };
+export type Settings = { voice: boolean; unlockAll: boolean };
 
 function read<T>(key: string, fallback: T): T {
   try {
@@ -22,7 +22,7 @@ function write(key: string, value: unknown) {
 }
 
 export const loadProgress = (): Progress => read<Progress>(KEY, { stars: {} });
-export const loadSettings = (): Settings => read<Settings>(SETTINGS_KEY, { voice: true });
+export const loadSettings = (): Settings => read<Settings>(SETTINGS_KEY, { voice: true, unlockAll: false });
 export const saveSettings = (s: Settings) => write(SETTINGS_KEY, s);
 
 export function saveStars(id: string, stars: number) {
