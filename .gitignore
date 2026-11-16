@@ -1,3 +1,21 @@
 node_modules
 dist
 .DS_Store
+
+# Playwright
+.playwright-cli/
+
+# ---------- Agentic AI: Claude ----------
+.claude/
+.claude/settings.local.json
+.claude/skills/
+CLAUDE.local.md
+
+# ---------- Agentic AI: skills ----------
+# Ignore any skills folder at any depth (local/agent skills)
+skills/
+**/skills/
+.agents/
+**/.agents/
+src/docs/*
+!src/docs/*.png
