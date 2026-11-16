@@ -16,7 +16,8 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 // ---- Path ----------------------------------------------------------------
 function showPath() {
   const { stars } = loadProgress();
-  const unlocked = (i: number) => i === 0 || (stars[LESSONS[i - 1].id] ?? 0) > 0;
+  const { unlockAll } = loadSettings();
+  const unlocked = (i: number) => unlockAll || i === 0 || (stars[LESSONS[i - 1].id] ?? 0) > 0;
   const current = LESSONS.findIndex((l) => !(stars[l.id] > 0));
   const total = Object.values(stars).reduce((a, b) => a + b, 0);
 
@@ -89,12 +90,17 @@ function showParent() {
     <h2>Parents</h2>
     <p>${done} of ${LESSONS.length} lessons completed.</p>
     <label class="row"><input type="checkbox" id="voice" ${settings.voice ? 'checked' : ''}/> Spoken prompts</label>
+    <label class="row"><input type="checkbox" id="unlock" ${settings.unlockAll ? 'checked' : ''}/> Unlock all levels</label>
     <button class="btn danger" id="reset">Reset progress</button>
     <button class="btn" id="close">Close</button></div>`;
   document.body.appendChild(panel);
   panel.querySelector('#voice')!.addEventListener('change', (e) =>
-    saveSettings({ voice: (e.target as HTMLInputElement).checked }),
+    saveSettings({ ...loadSettings(), voice: (e.target as HTMLInputElement).checked }),
   );
+  panel.querySelector('#unlock')!.addEventListener('change', (e) => {
+    saveSettings({ ...loadSettings(), unlockAll: (e.target as HTMLInputElement).checked });
+    showPath();
+  });
   panel.querySelector('#reset')!.addEventListener('click', () => {
     if (confirm('Erase all stars and start over?')) {
       resetProgress();
